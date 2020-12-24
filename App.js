@@ -12,37 +12,53 @@ import Story from './src/screens/Story'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { Provider as StoreProvider } from 'react-redux'
+import store from './src/redux/store'
+
 
 const BottomTab = createMaterialBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 const FeedStack = createStackNavigator();
 const DmStack = createStackNavigator();
 
+const FeedStacks = () => {
+  return(
+    <FeedStack.Navigator>
+      <FeedStack.Screen
+        name="Feed"
+        component={Feed}
+      />
+      <FeedStack.Screen
+        name="Story"
+        component={Story}
+      />
+    </FeedStack.Navigator>
+  )
+}
+
+const DMStacks = () => {
+  return(
+    <DmStack.Navigator>
+      <DmStack.Screen
+        name="Dm"
+        component={Dm}
+      />
+    </DmStack.Navigator>
+  )
+}
+
+
+
 const FeedTabs = () => {
   return (
     <TopTab.Navigator>
       <TopTab.Screen
-        name="FeedStack"
-        children={() => {
-          <FeedStack.Navigator>
-            <FeedStack.Screen
-              name="Feed"
-              component={Feed}
-            />
-            <FeedStack.Screen
-              name="Story"
-              component={Story}
-            />
-          </FeedStack.Navigator>
-        }}
-      />
+        name="FeedStacks"
+        component= {FeedStacks}
+      /> 
       <TopTab.Screen
-        name="DmStack"
-        children={() => {
-          <DmStack.Navigator>
-            <DmStack.Screen name="Dm" component={Dm} />
-          </DmStack.Navigator>
-        }}
+        name="DmStacks"
+        component={DMStacks}
       />
     </TopTab.Navigator>
   )
@@ -50,25 +66,18 @@ const FeedTabs = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <BottomTab.Navigator>
-        <BottomTab.Screen 
-          name="Feed" 
-          children={() => FeedTabs()} 
-        />
-        <BottomTab.Screen name="Explore" component={Explore} />
-        <BottomTab.Screen name="Notifications" component={Notifications} />
-        <BottomTab.Screen name="Profile" component={Profile} />
-      </BottomTab.Navigator>
-    </NavigationContainer>
+    <StoreProvider store={store}>
+      <NavigationContainer>
+        <BottomTab.Navigator>
+          <BottomTab.Screen 
+            name="Feed" 
+            component={FeedTabs}
+          />
+          <BottomTab.Screen name="Explore" component={Explore} />
+          <BottomTab.Screen name="Notifications" component={Notifications} />
+          <BottomTab.Screen name="Profile" component={Profile} />
+        </BottomTab.Navigator>
+      </NavigationContainer>
+    </StoreProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
