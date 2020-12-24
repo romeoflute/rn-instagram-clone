@@ -1,22 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {View, Text} from 'react-native'
 // import { connect } from 'react-redux'
 import {fetchFeed} from '../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
+import PostList from '../components/PostList'
 
-const Feed = (props) => {
 
-    const feed = useSelector(state => state)
+//Note: https://reactjs.org/docs/hooks-effect.html
+
+const Feed = () => {
+    const feed = useSelector(state => state.feed)
+    console.log("posts are: ", feed)
+
     const dispatch = useDispatch()
 
     //dispatch actions
     const getFeed = () => dispatch(fetchFeed())
 
-    // getFeed()
+    useEffect(() => {
+        getFeed()
+    }, []);
+
     return (
-        <View>
-            <Text>Feed</Text>
-        </View>
+        <PostList data={feed.data} />       
     )
 }
 

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:3000'
 
-export function fetchFeed(params){
+export function fetchFeed(){
     return (dispatch) => {
         dispatch({
             type: 'FETCH_FEED_START'

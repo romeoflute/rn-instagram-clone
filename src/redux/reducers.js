@@ -27,6 +27,7 @@ export function feed(
                 data: action.payload
             }
         case 'FETCH_FEED_ERROR':
+            console.log("action.payload: ", action.payload)
             return {
                 ...state,
                 fetching: false,
